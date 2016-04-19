@@ -1,5 +1,5 @@
 %% abntex2.cls, v<VERSION> laurocesar
-%% Copyright 2012-2015 by abnTeX2 group at https://www.abntex.net.br/ 
+%% Copyright 2012-<COPYRIGHT_YEAR> by abnTeX2 group at https://www.abntex.net.br/ 
 %%
 %% This work may be distributed and/or modified under the
 %% conditions of the LaTeX Project Public License, either version 1.3
@@ -23,7 +23,7 @@
 % ------------------------------------------------------------------------
 % ------------------------------------------------------------------------
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{abntex2}[2015/12/26 v1.9.6 abnTeX2]
+\ProvidesClass{abntex2}[<CURRENT_DATE> v<VERSION> abnTeX2]
 \RequirePackage{ifthen}
 %
 % Captura as options article e twocolumn
@@ -306,20 +306,13 @@
 % ------------------------------------------------------------------------
 
 % ---
-% Notas de rodape - NBR 14724/2011 - 5.2.1 
-\makeatletter
-\renewcommand\@makefntext[1]{\hangindent=1.2em\leftskip=0.4em\hskip-0.4em\@makefnmark\hskip1.2em\relax#1}
-%\renewcommand\@makefntext[1]{\leftskip=0.7cm\hskip-0.15cm\@makefnmark#1}
-\makeatother
-\renewcommand{\foottextfont}{\ABNTEXfontereduzida}
+% Notas de rodape - footnotes - NBR 14724/2011 - 5.2.1 
+\setlength{\footmarkwidth}{1.2em} % largura do footnotemark
+\setlength{\footmarksep}{0em}
+\footmarkstyle{\footnotesize{\textsuperscript{#1}}\hfill}
 
-% Virgula em footnote consecutiva
-\let\oldFootnote\footnote
-\newcommand\nextToken\relax
-\renewcommand\footnote[1]{%
-    \oldFootnote{#1}\futurelet\nextToken\isFootnote}
-\newcommand\isFootnote{%
-    \ifx\footnote\nextToken\textsuperscript{,}\fi}
+% tamanho da fonte do footnote
+\renewcommand{\foottextfont}{\ABNTEXfontereduzida}
 % ---
 
 % ---
@@ -339,6 +332,7 @@
 % ---
 \hangcaption
 \newcommand{\ABNTEXcaptiondelim}{~\textendash~}
+\newcommand{\ABNTEXcaptionfontedelim}{:~}
 %\captionnamefont{\ABNTEXfontereduzida}
 %\captiontitlefont{\ABNTEXfontereduzida}
 
@@ -383,7 +377,8 @@
        \@setminipage
      \fi
      \ABNTEXfontereduzida
-     \configureseparator
+     %\configureseparator
+     \captiondelim{\ABNTEXcaptionfontedelim}
      \@makecaption{\ABNTEXfontereduzida #1}{\ignorespaces\ABNTEXfontereduzida #2}\par
   \endgroup}
 \makeatother
@@ -535,10 +530,10 @@
   \renewcommand{\cftsubsectionfont}{\normalsize}
   \renewcommand{\cftsubsectionpagefont}{\cftsubsectionfont}
   %
-  \renewcommand{\cftsubsubsectionfont}{\smaller}
+  \renewcommand{\cftsubsubsectionfont}{\small}
   \renewcommand{\cftsubsubsectionpagefont}{\cftsubsubsectionfont}
   %
-  \renewcommand{\cftparagraphfont}{\smaller\smaller}
+  \renewcommand{\cftparagraphfont}{\footnotesize}
   \renewcommand{\cftparagraphpagefont}{\cftparagraphfont}
   %
   % Ajusta entrada Referencias
@@ -548,7 +543,7 @@
     \bibmark
     \ifnobibintoc\else
     \phantomsection
-    \addcontentsline{toc}{chapter}{\uppercase{\bibname}}
+    \addcontentsline{toc}{chapter}{\texorpdfstring{\MakeTextUppercase{\bibname}}{\bibname}}
     \fi
     \prebibhook
 }
@@ -855,7 +850,7 @@
 % ---
 
 % ---
-% Lista de sembolos
+% Lista de simbolos
 \newenvironment{simbolos}{%
   \pretextualchapter{\listadesimbolosname}
   \begin{symbols}
